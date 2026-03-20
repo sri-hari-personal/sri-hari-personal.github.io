@@ -2,39 +2,48 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>PRD</title>
+  <title>PRD – Sri Hari Mamillapalli</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     body { margin:0; font-family: 'Segoe UI', sans-serif; background:#f7f7f7; color:#222; }
     header { background:#2d4a89; color:#fff; padding:1rem; text-align:center; }
-    main { max-width: 1000px; margin: 1rem auto; background:#fff; border-radius:8px;
-           box-shadow:0 2px 24px rgba(0,0,0,0.04); padding:1rem; }
-    .toolbar { display:flex; gap:1rem; padding:0.5rem 0; }
+    main {
+      max-width: 1000px; margin: 1rem auto; background:#fff; border-radius:8px;
+      box-shadow:0 2px 24px rgba(0,0,0,0.04); padding:1rem;
+    }
+    .toolbar { display:flex; gap:1rem; padding:0.5rem 0; flex-wrap:wrap; }
     .toolbar a { color:#2d4a89; font-weight:600; text-decoration:none; }
     .viewer { width:100%; height:85vh; border:none; }
-    @media (max-width: 700px) {
-      .viewer { height: 75vh; }
-    }
+    @media (max-width: 700px) { .viewer { height: 75vh; } }
   </style>
 </head>
 <body>
   <header>
-    <h1>PRD</h1>
+    <h1>Product Requirements Document</h1>
     <p>Sri Hari Mamillapalli</p>
   </header>
+
   <main>
     <div class="toolbar">
-      index.html← Back to Home</a>
-      PRD/ImproveCRRUrbanCompany_SriHariM_PRD1.pdfOpen PDF</a>
+      <a href="index.html">← Back to Home</a>
+      <a href="PRD/ImproveCRRUrbanCompany_SriHariM_PRD1.pdf" target="_blank" rel="noopener">Open in new tab</a>
+      <a href="PRD/ImproveCRRUrbanCompany_SriHariM_PRD1.pdf" download>Download</a>
     </div>
 
-    <!-- Prefer object; fallback to iframe -->
-    <object data="assets/resume.pdf" type="application/pdf" class="viewer">
-      PRD/ImproveCRRUrbanCompany_SriHariM_PRD1.pdf</iframe>
+    <!-- Inline PDF (preferred) -->
+    <object data="PRD/ImproveCRRUrbanCompany_SriHariM_PRD1.pdf"
+            type="application/pdf"
+            class="viewer">
+      <!-- Fallback for browsers that can't render PDFs inline -->
+      <p>Your browser can’t display PDFs inline. You can
+        <a href="PRD/ImproveCRRUrbanCompany_SriHariM_PRD1.pdf" target="_blank" rel="noopener">open it in a new tab</a>
+        or <a href="PRD/ImproveCRRUrbanCompany_SriHariM_PRD1.pdf" download>download it</a>.
+      </p>
     </object>
 
     <noscript>
-      JavaScript is disabled. Please assets/resume.pdfopen the PDF</a>.
+      JavaScript is disabled. Please
+      <a href="PRD/ImproveCRRUrbanCompany_SriHariM_PRD1.pdf" target="_blank" rel="noopener">open the PDF</a>.
     </noscript>
   </main>
 </body>
