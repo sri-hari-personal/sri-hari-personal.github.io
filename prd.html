@@ -5,21 +5,20 @@
   <title>PRDs – Sri Hari Mamillapalli</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    :root { --brand:#2d4a89; --brand-darker:#3558a3; --text:#222; --bg:#f7f7f7; --white:#fff; }
-    * { box-sizing: border-box; }
-    body { margin:0; font-family:'Segoe UI', system-ui, -apple-system, Arial, sans-serif; background:var(--bg); color:var(--text); }
+    :root { --brand:#2d4a89; --brand-darker:#3558a3; --text:#222; --bg:#f7f7f7; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:'Segoe UI',system-ui,-apple-system,Arial,sans-serif; background:var(--bg); color:var(--text); }
     header { background:var(--brand); color:#fff; padding:1rem; text-align:center; }
     main { max-width:1100px; margin:1rem auto; background:#fff; border-radius:8px; box-shadow:0 2px 24px rgba(0,0,0,.04); padding:1rem 1rem 1.25rem; }
 
     .toolbar { display:flex; gap:.75rem; align-items:center; flex-wrap:wrap; margin-bottom:.75rem; }
     .toolbar a { color:var(--brand); font-weight:600; text-decoration:none; }
-
-    .btn { display:inline-block; background:var(--brand); color:#fff; border:none;
+    .btn { display:inline-block; background:var(--brand); color:#fff !important; border:none;
            padding:.55rem .9rem; border-radius:8px; font-weight:600; cursor:pointer;
            box-shadow:0 2px 8px rgba(0,0,0,.10); transition:background .2s, transform .05s, box-shadow .2s; }
     .btn:hover { background:var(--brand-darker); box-shadow:0 4px 14px rgba(0,0,0,.15); }
     .btn:active { transform: translateY(1px); }
-    .btn.ghost { background:transparent; color:var(--brand); border:1px solid var(--brand); }
+    .btn.ghost { background:transparent; color:var(--brand) !important; border:1px solid var(--brand); }
     .btn.small { padding:.4rem .7rem; border-radius:7px; }
 
     .chips { display:flex; gap:.5rem; flex-wrap:wrap; margin:.25rem 0 1rem; }
@@ -43,12 +42,53 @@
       <a href="index.html" class="btn ghost small">← Back to Home</a>
       <span id="current-title" class="muted" style="margin-left:.25rem;"></span>
       <span style="flex:1"></span>
+      <!-- ensure visible label always present -->
       <a id="open-link" class="btn small" target="_blank" rel="noopener">Open in new tab</a>
       <a id="download-link" class="btn ghost small" download>Download</a>
     </div>
 
+    <!-- Buttons for each PRD -->
     <div id="prd-buttons" class="chips"></div>
 
+    <!-- Inline viewer -->
     <object id="pdf-object" type="application/pdf" class="viewer">
       <p>
         Your browser can’t display PDFs inline.
+        You can <a id="fallback-open" target="_blank" rel="noopener">open the PRD</a>
+        or <a id="fallback-download" download>download it</a>.
+      </p>
+    </object>
+
+    <p id="status" class="muted" style="margin-top:.5rem;"></p>
+  </main>
+
+  <script>
+  'use strict';
+  (function(){
+    const statusEl = document.getElementById('status');
+    const setStatus = (msg, isError=false) => {
+      statusEl.textContent = msg || '';
+      statusEl.classList.toggle('error', isError);
+      if (msg) console[isError ? 'error' : 'log'](msg);
+    };
+
+    try {
+      // 1) List your PRDs EXACTLY (case-sensitive).
+      //    Recommended: rename your file in GitHub to this clean name and keep it here too.
+      const PRDS = [
+        { title: "Improve CRR – Urban Company (Sri Hari M) – v1", file: "PRD/uc-improve-crr-v1.pdf" }
+        // Add more: { title: "Another PRD", file: "PRD/another.pdf" },
+      ];
+
+      // Guard: show message if empty
+      if (!PRDS.length) {
+        setStatus("No PRDs configured. Edit prd.html and add entries to the PRDS array.", true);
+        return;
+      }
+
+      // 2) Elements
+      const pdfObject    = document.getElementById('pdf-object');
+      const openLink     = document.getElementById('open-link');
+      const downLink     = document.getElementById('download-link');
+      const fbOpen       = document.getElementById('fallback-open');
+      const fbDown       = document.getElementById('fallback-download');
