@@ -5,42 +5,31 @@
   <title>PRDs – Sri Hari Mamillapalli</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    :root {
-      --brand: #2d4a89;
-      --brand-darker: #3558a3;
-      --text: #222;
-      --bg: #f7f7f7;
-      --white: #fff;
-    }
+    :root { --brand:#2d4a89; --brand-darker:#3558a3; --text:#222; --bg:#f7f7f7; --white:#fff; }
     * { box-sizing: border-box; }
-    body { margin:0; font-family:'Segoe UI',system-ui,-apple-system,Arial,sans-serif; background:var(--bg); color:var(--text); }
+    body { margin:0; font-family:'Segoe UI', system-ui, -apple-system, Arial, sans-serif; background:var(--bg); color:var(--text); }
     header { background:var(--brand); color:#fff; padding:1rem; text-align:center; }
-    main {
-      max-width: 1100px; margin: 1rem auto; background:#fff; border-radius:8px;
-      box-shadow:0 2px 24px rgba(0,0,0,0.04); padding:1rem 1rem 1.25rem;
-    }
+    main { max-width:1100px; margin:1rem auto; background:#fff; border-radius:8px; box-shadow:0 2px 24px rgba(0,0,0,.04); padding:1rem 1rem 1.25rem; }
+
     .toolbar { display:flex; gap:.75rem; align-items:center; flex-wrap:wrap; margin-bottom:.75rem; }
     .toolbar a { color:var(--brand); font-weight:600; text-decoration:none; }
-    .btn {
-      display:inline-block; background:var(--brand); color:#fff; border:none;
-      padding:.55rem .9rem; border-radius:8px; font-weight:600; cursor:pointer;
-      box-shadow:0 2px 8px rgba(0,0,0,.10); transition:background .2s, transform .05s, box-shadow .2s;
-    }
+
+    .btn { display:inline-block; background:var(--brand); color:#fff; border:none;
+           padding:.55rem .9rem; border-radius:8px; font-weight:600; cursor:pointer;
+           box-shadow:0 2px 8px rgba(0,0,0,.10); transition:background .2s, transform .05s, box-shadow .2s; }
     .btn:hover { background:var(--brand-darker); box-shadow:0 4px 14px rgba(0,0,0,.15); }
     .btn:active { transform: translateY(1px); }
-    .btn.ghost {
-      background:transparent; color:var(--brand); border:1px solid var(--brand);
-    }
-    .btn.small { padding:.4rem .7rem; border-radius:7px; font-weight:600; }
+    .btn.ghost { background:transparent; color:var(--brand); border:1px solid var(--brand); }
+    .btn.small { padding:.4rem .7rem; border-radius:7px; }
+
     .chips { display:flex; gap:.5rem; flex-wrap:wrap; margin:.25rem 0 1rem; }
-    .chip {
-      background:#eef2ff; color:#1f3a8a; border:1px solid #c7d2fe;
-      padding:.45rem .7rem; border-radius:999px; cursor:pointer; font-weight:600;
-    }
+    .chip { background:#eef2ff; color:#1f3a8a; border:1px solid #c7d2fe; padding:.45rem .7rem; border-radius:999px; cursor:pointer; font-weight:600; }
     .chip.active { background:var(--brand); color:#fff; border-color:var(--brand); }
+
     .viewer { width:100%; height:85vh; border:none; }
-    @media (max-width: 700px) { .viewer { height:75vh; } }
+    @media (max-width:700px){ .viewer{ height:75vh; } }
     .muted { color:#666; font-size:.9rem; }
+    .error { color:#b00020; font-weight:600; }
   </style>
 </head>
 <body>
@@ -58,100 +47,8 @@
       <a id="download-link" class="btn ghost small" download>Download</a>
     </div>
 
-    <!-- Buttons for each PRD -->
     <div id="prd-buttons" class="chips"></div>
 
-    <!-- Inline viewer -->
     <object id="pdf-object" type="application/pdf" class="viewer">
-      <p>Your browser can’t display PDFs inline. You can
-        <a id="fallback-open" target="_blank" rel="noopener">open the PRD</a>
-        or <a id="fallback-download" download>download it</a>.
-      </p>
-    </object>
-  </main>
-
-  <script>
-    // 1) List your PRDs exactly (case-sensitive paths)
-    const PRDS = [
-      {
-        title: "Improve CRR – Urban Company (Sri Hari M) – v1",
-        file:  "PRD/ImproveCRRUrbanComapnny_SriHariM_PRD1.pdf" // <-- put the exact filename here
-      },
-      // Add more:
-      // { title: "Churn Reduction PRD – 2026‑02", file: "PRD/churn_reduction_2026-02.pdf" },
-      // { title: "Search Relevance PRD", file: "PRD/search_relevance_prd.pdf" },
-    ];
-
-    // 2) Optional deep-link: ?file=PRD/xyz.pdf
-    const params = new URLSearchParams(window.location.search);
-    const requestedFile = params.get('file');
-
-    let activeIndex = 0;
-    if (requestedFile) {
-      const idx = PRDS.findIndex(p => p.file === requestedFile);
-      if (idx >= 0) activeIndex = idx;
-    }
-
-    const pdfObject    = document.getElementById('pdf-object');
-    const openLink     = document.getElementById('open-link');
-    const downLink     = document.getElementById('download-link');
-    const fbOpen       = document.getElementById('fallback-open');
-    const fbDown       = document.getElementById('fallback-download');
-    const currentTitle = document.getElementById('current-title');
-    const container    = document.getElementById('prd-buttons');
-
-    function setActive(i, pushState = true) {
-      activeIndex = i;
-      const { file, title } = PRDS[i];
-
-      // Only allow relative paths within the site
-      if (/^https?:\/\//i.test(file) || file.startsWith('//')) {
-        alert('Only relative paths within this site are allowed.');
-        return;
-      }
-
-      // Set the viewer + links
-      pdfObject.setAttribute('data', file);
-      openLink.setAttribute('href', file);
-      downLink.setAttribute('href', file);
-      fbOpen.setAttribute('href', file);
-      fbDown.setAttribute('href', file);
-      currentTitle.textContent = `Viewing: ${title}`;
-
-      // Update chip styles
-      [...container.querySelectorAll('.chip')].forEach((el, idx) => {
-        el.classList.toggle('active', idx === i);
-      });
-
-      // Make URL shareable
-      if (pushState) {
-        const url = new URL(window.location);
-        url.searchParams.set('file', file);
-        window.history.replaceState({}, '', url);
-      }
-
-      document.title = `PRD – ${title}`;
-    }
-
-    function renderButtons() {
-      container.innerHTML = '';
-      PRDS.forEach((prd, idx) => {
-        const btn = document.createElement('button');
-        btn.className = 'chip';
-        btn.textContent = prd.title;
-        btn.addEventListener('click', () => setActive(idx));
-        container.appendChild(btn);
-      });
-    }
-
-    // Guard: if PRDS is empty, show a friendly message
-    if (!PRDS.length) {
-      document.getElementById('prd-buttons').innerHTML =
-        '<span class="muted">No PRDs configured. Add entries to PRDS in the script.</span>';
-    } else {
-      renderButtons();
-      setActive(activeIndex, /*pushState*/ !!requestedFile);
-    }
-  </script>
-</body>
-</html>
+      <p>
+        Your browser can’t display PDFs inline.
