@@ -14,6 +14,32 @@
       color: #fff;
       padding: 2rem 1rem 1rem 1rem;
       text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .banner-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+      opacity: 0.25;
+    }
+    .header-prd-btn {
+      position: absolute;
+      top: 1.5rem;
+      right: 2rem;
+      z-index: 2;
+      background: #e0e0e0;
+      color: #2d4a89;
+      border: none;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      transition: background .2s ease;
+    }
+    .header-prd-btn:hover {
+      background: #bdbdbd;
     }
     main {
       max-width: 700px;
@@ -53,9 +79,11 @@
 </head>
 <body>
   <header>
-    <img src="/IMAGES/dp.jpg" alt="Avatar" class="avatar">
-    <h1>Sri Hari Mamillapalli</h1>
-    <p>Welcome To My Personal Website!</p>
+    <a href="prd.html" class="btn header-prd-btn">PRD</a>
+    <img src="IMAGES/banner.jpg" alt="Banner" class="banner-img">
+    <img src="IMAGES/dp.jpg" alt="Avatar" class="avatar" style="position: relative; z-index: 1;">
+    <h1 style="position: relative; z-index: 1;">Sri Hari Mamillapalli</h1>
+    <p style="position: relative; z-index: 1;">Welcome To My Personal Website!</p>
   </header>
   <main>
     <section>
@@ -72,9 +100,15 @@
         <li>LinkedIn: https://linkedin.com/in/sriharimamillapalli</a></li>
       </ul>
     </section>
+      <section>
+        <h2>Resume</h2>
+        <p>You can view or download my resume below:</p>
+        <a class="btn" href="Sri_Hari_Mamillapalli_AI_PM_03_2026.pdf" download>Download Resume (PDF)</a>
+        <br><br>
+        <iframe src="Sri_Hari_Mamillapalli_AI_PM_03_2026.pdf" width="100%" height="600px" style="border:1px solid #ccc; border-radius:8px;"></iframe>
+      </section>
   </main>
   <nav>
-  <a href="prd.html" class="btn">View PRD</a>
   </nav>
 
   <style>
@@ -92,6 +126,15 @@
   }
   .btn:hover { background:#3558a3; box-shadow: 0 4px 14px rgba(0,0,0,0.16); }
   .btn:active { transform: translateY(1px); }
+  .btn.header-prd-btn {
+    background: #e0e0e0 !important;
+    color: #2d4a89 !important;
+    border: none;
+  }
+  .btn.header-prd-btn:hover {
+    background: #bdbdbd !important;
+    color: #2d4a89 !important;
+  }
   </style>
 </body>
 </html>
