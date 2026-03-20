@@ -2,49 +2,67 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>PRD – Sri Hari Mamillapalli</title>
+  <title>PRDs – Sri Hari Mamillapalli</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    body { margin:0; font-family: 'Segoe UI', sans-serif; background:#f7f7f7; color:#222; }
-    header { background:#2d4a89; color:#fff; padding:1rem; text-align:center; }
-    main {
-      max-width: 1000px; margin: 1rem auto; background:#fff; border-radius:8px;
-      box-shadow:0 2px 24px rgba(0,0,0,0.04); padding:1rem;
+    :root {
+      --brand: #2d4a89;
+      --brand-darker: #3558a3;
+      --text: #222;
+      --bg: #f7f7f7;
+      --white: #fff;
     }
-    .toolbar { display:flex; gap:1rem; padding:0.5rem 0; flex-wrap:wrap; }
-    .toolbar a { color:#2d4a89; font-weight:600; text-decoration:none; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family:'Segoe UI',system-ui,-apple-system,Arial,sans-serif; background:var(--bg); color:var(--text); }
+    header { background:var(--brand); color:#fff; padding:1rem; text-align:center; }
+    main {
+      max-width: 1100px; margin: 1rem auto; background:#fff; border-radius:8px;
+      box-shadow:0 2px 24px rgba(0,0,0,0.04); padding:1rem 1rem 1.25rem;
+    }
+    .toolbar { display:flex; gap:.75rem; align-items:center; flex-wrap:wrap; margin-bottom:.75rem; }
+    .toolbar a { color:var(--brand); font-weight:600; text-decoration:none; }
+    .btn {
+      display:inline-block; background:var(--brand); color:#fff; border:none;
+      padding:.55rem .9rem; border-radius:8px; font-weight:600; cursor:pointer;
+      box-shadow:0 2px 8px rgba(0,0,0,.10); transition:background .2s, transform .05s, box-shadow .2s;
+    }
+    .btn:hover { background:var(--brand-darker); box-shadow:0 4px 14px rgba(0,0,0,.15); }
+    .btn:active { transform: translateY(1px); }
+    .btn.ghost {
+      background:transparent; color:var(--brand); border:1px solid var(--brand);
+    }
+    .btn.small { padding:.4rem .7rem; border-radius:7px; font-weight:600; }
+    .group { display:flex; gap:.5rem; flex-wrap:wrap; }
+    .chips { display:flex; gap:.5rem; flex-wrap:wrap; margin:.25rem 0 1rem; }
+    .chip {
+      background:#eef2ff; color:#1f3a8a; border:1px solid #c7d2fe;
+      padding:.45rem .7rem; border-radius:999px; cursor:pointer; font-weight:600;
+    }
+    .chip.active { background:var(--brand); color:#fff; border-color:var(--brand); }
     .viewer { width:100%; height:85vh; border:none; }
-    @media (max-width: 700px) { .viewer { height: 75vh; } }
+    @media (max-width: 700px) { .viewer { height:75vh; } }
+    .muted { color:#666; font-size:.9rem; }
   </style>
 </head>
 <body>
   <header>
-    <h1>Product Requirements Document</h1>
-    <p>Sri Hari Mamillapalli</p>
+    <h1>Product Requirements Documents</h1>
+    <p class="muted">Select a PRD below to view inline</p>
   </header>
 
   <main>
+    <!-- Top controls -->
     <div class="toolbar">
-      <a href="index.html">← Back to Home</a>
-      <a href="PRD/ImproveCRRUrbanCompany_SriHariM_PRD1.pdf" target="_blank" rel="noopener">Open in new tab</a>
-      <a href="PRD/ImproveCRRUrbanCompany_SriHariM_PRD1.pdf" download>Download</a>
+      <a class="btn ghost small" href="index.html">← Back to Home</a>
+      <span id="current-title" class="muted" style="margin-left:.25rem;"></span>
+      <span style="flex:1"></span>
+      <!-- Dynamic links to open/download the active file -->
+      <a id="open-link" class="btn small" target="_blank" rel="noopener">Open in new tab</a>
+      <a id="download-link" class="btn ghost small" download>Download</a>
     </div>
 
-    <!-- Inline PDF (preferred) -->
-    <object data="PRD/ImproveCRRUrbanCompany_SriHariM_PRD1.pdf"
-            type="application/pdf"
-            class="viewer">
-      <!-- Fallback for browsers that can't render PDFs inline -->
-      <p>Your browser can’t display PDFs inline. You can
-        <a href="PRD/ImproveCRRUrbanCompany_SriHariM_PRD1.pdf" target="_blank" rel="noopener">open it in a new tab</a>
-        or <a href="PRD/ImproveCRRUrbanCompany_SriHariM_PRD1.pdf" download>download it</a>.
-      </p>
-    </object>
+    <!-- Buttons for each PRD -->
+    <div id="prd-buttons" class="chips"></div>
 
-    <noscript>
-      JavaScript is disabled. Please
-      <a href="PRD/ImproveCRRUrbanCompany_SriHariM_PRD1.pdf" target="_blank" rel="noopener">open the PDF</a>.
-    </noscript>
-  </main>
-</body>
-</html>
+    <!-- Inline viewer -->
+    <object id="pdf-object" type="application/pdf" class="viewer">
